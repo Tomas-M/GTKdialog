@@ -7,14 +7,10 @@ static gchar *option_yes = NULL;
 static gchar *option_no = NULL;
 
 static const GOptionEntry option_entries[] = {
-	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title,
-		"Dialog title", "title" },
-	{ "message", 'm', 0, G_OPTION_ARG_STRING, &option_message,
-		"Dialog message", "message" },
-	{ "yes", 'y', 0, G_OPTION_ARG_STRING, &option_yes,
-		"Text to display on Yes button", "Yes" },
-	{ "no", 'n', 0, G_OPTION_ARG_STRING, &option_no,
-		"Text to display on No button", "No" },
+	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, "Dialog title", "title" },
+	{ "message", 'm', 0, G_OPTION_ARG_STRING, &option_message, "Dialog message", "message" },
+	{ "yes", 'y', 0, G_OPTION_ARG_STRING, &option_yes, "Text to display on Yes button", "Yes" },
+	{ "no", 'n', 0, G_OPTION_ARG_STRING, &option_no, "Text to display on No button", "No" },
 	{ NULL }
 };
 
