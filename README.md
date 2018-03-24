@@ -8,6 +8,7 @@ Simple GTK2 dialog for Yes/No questions
       -h, --help                Show help options
 
     Application Options:
+      -i, --icon=icon file      Dialog icon
       -t, --title=title         Dialog title
       -m, --message=message     Dialog message
       -y, --yes=Yes             Text to display on Yes button

@@ -5,8 +5,10 @@ static gchar *option_title = NULL;
 static gchar *option_message = NULL;
 static gchar *option_yes = NULL;
 static gchar *option_no = NULL;
+static gchar *option_icon = NULL;
 
 static const GOptionEntry option_entries[] = {
+	{ "icon", 'i', 0, G_OPTION_ARG_STRING, &option_icon, "Dialog icon", "icon file" },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, "Dialog title", "title" },
 	{ "message", 'm', 0, G_OPTION_ARG_STRING, &option_message, "Dialog message", "message" },
 	{ "yes", 'y', 0, G_OPTION_ARG_STRING, &option_yes, "Text to display on Yes button", "Yes" },
@@ -57,16 +59,20 @@ int main(int argc, char *argv[])
 	{
 		button = gtk_button_new_with_label (option_no);
 		gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (NoFunc), dialog_window);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
-			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog_window)->action_area), button, TRUE, TRUE, 0);
-			gtk_widget_grab_default (button);
-			gtk_widget_show (button);
+		GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog_window)->action_area), button, TRUE, TRUE, 0);
+		gtk_widget_grab_default (button);
+		gtk_widget_show (button);
 	}
 
 	gtk_widget_show (dialog_window);
 
 	g_signal_connect(G_OBJECT(dialog_window), "destroy", NoFunc, NULL);
 	g_signal_connect(G_OBJECT(dialog_window), "delete-event", NoFunc, NULL);
+
+	if (option_icon)
+		gtk_window_set_icon(GTK_WINDOW(dialog_window), gdk_pixbuf_new_from_file(option_icon,&error));
+
 	gtk_main();
 	return 0;
 }
