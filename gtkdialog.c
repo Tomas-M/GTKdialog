@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 		exit(2);
 	}
 
-	if (!option_title || !option_message || !option_yes || !option_no) {
+	if (!option_title || !option_message || !option_yes) {
 		g_print("%s", g_option_context_get_help(context, TRUE, NULL));
 		exit(2);
 	}
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 	dialog_window = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (dialog_window), option_title);
-	gtk_container_border_width (GTK_CONTAINER (dialog_window), 5);
+	gtk_container_border_width (GTK_CONTAINER (dialog_window), 15);
 
 	label = gtk_label_new (option_message);
 	gtk_misc_set_padding (GTK_MISC (label), 10, 10);
@@ -53,12 +53,15 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog_window)->action_area), button, TRUE, TRUE, 0);
 	gtk_widget_show (button);
 
-	button = gtk_button_new_with_label (option_no);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (NoFunc), dialog_window);
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog_window)->action_area), button, TRUE, TRUE, 0);
-	gtk_widget_grab_default (button);
-	gtk_widget_show (button);
+	if (option_no)
+	{
+		button = gtk_button_new_with_label (option_no);
+		gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (NoFunc), dialog_window);
+			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog_window)->action_area), button, TRUE, TRUE, 0);
+			gtk_widget_grab_default (button);
+			gtk_widget_show (button);
+	}
 
 	gtk_widget_show (dialog_window);
 
