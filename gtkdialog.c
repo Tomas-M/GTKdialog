@@ -18,11 +18,27 @@ static const GOptionEntry option_entries[] = {
 	{ NULL }
 };
 
-void YesFunc(){exit(0);}
-void NoFunc(){exit(1);}
+void YesFunc(){ exit(0); }
+void NoFunc(){ exit(1); }
 
-void YesNoDialog()
+int main(int argc, char *argv[])
 {
+	GOptionContext *context;
+	GError *error = NULL;
+	gtk_init(&argc, &argv);
+
+	context = g_option_context_new(NULL);
+	g_option_context_add_main_entries(context, option_entries, NULL);
+	if (!g_option_context_parse(context, &argc, &argv, &error)) {
+		g_printerr("ERROR when parsing options: %s\n", error->message);
+		exit(2);
+	}
+
+	if (!option_title || !option_message || !option_yes || !option_no) {
+		g_print("%s", g_option_context_get_help(context, TRUE, NULL));
+		exit(2);
+	}
+
 	GtkWidget *label;
 	GtkWidget *button;
 	GtkWidget *dialog_window;
@@ -49,28 +65,9 @@ void YesNoDialog()
 	gtk_widget_show (button);
 
 	gtk_widget_show (dialog_window);
-}
 
-
-int main(int argc, char *argv[])
-{
-	GOptionContext *context;
-	GError *error = NULL;
-	gtk_init(&argc, &argv);
-
-	context = g_option_context_new(NULL);
-	g_option_context_add_main_entries(context, option_entries, NULL);
-	if (!g_option_context_parse(context, &argc, &argv, &error)) {
-		g_printerr("ERROR when parsing options: %s\n", error->message);
-		exit(2);
-	}
-
-	if (!option_title || !option_message || !option_yes || !option_no) {
-		g_print("%s", g_option_context_get_help(context, TRUE, NULL));
-		exit(2);
-	}
-
-	YesNoDialog();
+	g_signal_connect(G_OBJECT(dialog_window), "destroy", NoFunc, NULL);
+	g_signal_connect(G_OBJECT(dialog_window), "delete-event", NoFunc, NULL);
 	gtk_main();
 	return 0;
 }
