@@ -46,29 +46,18 @@ int main(int argc, char *argv[])
 	//=========== setup main window =============//
 	dialog_window = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (dialog_window), option_title);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog_window), 30);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog_window), 15);
 	
 	//========== setup label ===================//
 	label = gtk_label_new (option_message);	
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))) , label, FALSE, FALSE, 5);
 	gtk_widget_show (label);
 
-    
-    //========= setup hbox =====================//
+
+	//========= setup hbox =====================//
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);	
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))), hbox, FALSE, FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))), hbox, FALSE, FALSE, 15);
 	gtk_widget_show (hbox);
-
-
-
-
-	//========= setup yes button =====================//
-	button = gtk_button_new_with_label (option_yes);
-	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (YesFunc), (gpointer)dialog_window);
-	//gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))), button, FALSE, FALSE, 1);
-	gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 5);
-	gtk_widget_show (button);
-
 
 
 	//========= setup no button =====================//
@@ -78,11 +67,20 @@ int main(int argc, char *argv[])
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (NoFunc), (gpointer)dialog_window);
 		//GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
 		gtk_widget_set_can_default (button, TRUE);
-		gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 5);
+		gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 		//gtk_box_pack_start (GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))), button, FALSE, FALSE, 1);
 		gtk_widget_grab_default (button);
 		gtk_widget_show (button);
 	}
+
+
+	//========= setup yes button =====================//
+	button = gtk_button_new_with_label (option_yes);
+	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (YesFunc), (gpointer)dialog_window);
+	//gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(dialog_window))), button, FALSE, FALSE, 1);
+	gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 5);
+	gtk_widget_show (button);
+
 
 	gtk_widget_show_all(dialog_window);
 
